@@ -1,0 +1,32 @@
+body {
+    background-color: rgba(0,0,0,.8);
+    margin: 0;
+    padding: 0;
+    font-family: 'Microsoft YaHei','sans-serif';
+    color: #fff;
+}
+div,h1,ul,li{
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+    color: #fff;
+}
+input,img{
+    margin: 0;
+    padding: 0;
+    outline:none;
+    border: 0 none;
+    vertical-align: middle;
+    color: #fff;
+}
+
+/*.tmp{
+     background-color: rgba(0,0,0,.8);
+     color: #fff;
+}*/
+
