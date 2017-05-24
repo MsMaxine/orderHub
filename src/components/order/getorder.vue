@@ -1,10 +1,10 @@
 <template>
-    <div class="tmpl">
+    <div class="tmp">
         <header class="nav">
 			<div class="title">获取订单中，请稍后</div>
 		</header>
-       <div id="content">
-           
+       <div class="content">
+           <a href="javascript:;" id="fail_tip" @click="goBack">采集失败</a>
        </div>
     </div>
 </template>
@@ -61,7 +61,7 @@ export default {
                             default:
                                 //如果不是以上两种情况，就跳转页面，同时关闭加载中图示
                                 Indicator.close();
-                                document.getElementById('content').innerText = "采集失败";
+                                document.getElementById('fail_tip').style.display ="block";
                                 clearInterval(timer);
                                 break;
                         }
@@ -89,6 +89,15 @@ export default {
     line-height: 50px;
     text-align: center;
     border-bottom: 1px solid #ccc;
+}
+.content{
+    width: 100%;
+    /*height: 100%;*/
+    text-align: center;
+    padding-top: 50%;
+}
+#fail_tip{
+    display: none;
 }
 
 </style>

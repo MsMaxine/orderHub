@@ -1,5 +1,5 @@
-<template>
-    <div class="tmpl">
+<template >
+    <div class="tmp">
         <header class="nav">
 			<a class="back-nav"  @click="goBack"> < </a>
 			<div class="title" >{{title}}</div>
@@ -97,7 +97,7 @@ export default {
     height: 50px;
     line-height: 50px;
     text-align: center;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #fff;
 }
 
 .input-row input{

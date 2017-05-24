@@ -25,13 +25,17 @@
     </div>
 </template>
 <script>
-import Connect from '../connet.js';
 export default {
     data() {
         return {
             params:[]
         }
     }, 
+    methods: {
+         goBack() {
+                this.$router.go(-1); //返回上一次历史记录
+            },
+    },
     created(){
         //发起http请求
         this.$http.get(this.$myConfig.host + '/api/v1/h5/website/list/popular') //挂载的时候prototype.$myConfig
@@ -48,10 +52,6 @@ export default {
 }
 </script>
 <style scoped>
-
-/*.tmp{
-    background-color: #fff;
-}*/
 .main_title{
     height: 134px;
     line-height: 134px;

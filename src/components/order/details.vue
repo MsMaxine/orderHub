@@ -1,5 +1,5 @@
 <template>
-    <div class="tmpl">
+    <div class="tmp">
         <header class="nav">
 			<div class="title">订单如下</div>
 		</header>
