@@ -23,10 +23,7 @@ import Login from './components/order/login.vue';
 import GetOrder from './components/order/getorder.vue';
 //引入订单详情组件
 import Details from './components/order/details.vue';
-// 引入返回/标题功能组件
-// import Title from './components/commons/title.vue';
-// 新闻列表组件 
-// import NewsList from './components/news/list.vue';
+
 
 
 //安装router插件
@@ -44,15 +41,6 @@ router.addRoutes([
     { path: '/account/orderDetails', component: Details, },//订单链接组件
 
 ]);
-
-//注册一个全局的组件
-//Vue.component('my-title', Title);
-//注册全局的评论组件
-
-//注册全局过滤器
-//Vue.filter('convertTime', function(add_time) { //{ add_time| convertTime}
-//     return Moment(add_time).format('YYYY-MM-DD');
-// })
 
 new Vue({
     el: '#app',
