@@ -1,0 +1,126 @@
+<template>
+  <div class="my-tab">
+  	 <div class="vuetable-pagination ui basic segment grid">
+      <vuetable-pagination-info ref="paginationInfo"
+      	info-template="找到 {total} 条，显示 {from} 到 {to} 条 "
+      	 no-data-template="没有找到记录."
+      ></vuetable-pagination-info>
+      <vuetable-pagination ref="pagination"
+        @vuetable-pagination:change-page="onChangePage"
+      ></vuetable-pagination>
+    </div>
+    <vuetable ref="vuetable"
+      api-url="https://vuetable.ratiw.net/api/users"
+      :fields="fields"
+      pagination-path=""
+      :per-page="perPage"
+      @vuetable:pagination-data="onPaginationData"
+    ></vuetable>
+   
+  </div>
+</template>
+
+<script>
+//import accounting from 'accounting'
+//import moment from 'moment'
+import Vuetable from 'vuetable-2/src/components/Vuetable'
+import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
+import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
+
+export default {
+  components: {
+    Vuetable,
+    VuetablePagination,
+    VuetablePaginationInfo
+  },
+  data () {
+    return {
+      fields: [
+      	{
+          name: '__checkbox',   // <----
+          title: '多选回传',
+          titleClass: 'center aligned',
+          dataClass: 'center aligned'
+        },
+      	{
+          name: '__handle',   // <----sortHandleIcon
+          dataClass: 'center aligned'
+        },
+      	{
+          name: '__sequence',   // <----序号
+          title: 'No.',
+          titleClass: 'center aligned',//表头样式
+          dataClass: 'center aligned' //序号样式
+        },
+        
+        {
+          name: 'name',
+          title: '姓名'
+         },
+        {
+        	name:'email',
+        	title: '邮箱'
+        },
+        {
+          name: 'birthdate',
+          title: '生日',
+          sortField: 'birthdate',
+          titleClass: 'center aligned',
+          dataClass: 'center aligned',
+//        callback: 'formatDate|DD-MM-YYYY'
+        },
+        {
+          name: 'nickname',
+          callback: 'allcap'
+        },
+        {
+          name: 'gender',
+          titleClass: 'center aligned',
+          dataClass: 'center aligned',
+          callback: 'genderLabel'
+        },
+        {
+          name: 'salary',
+          titleClass: 'center aligned',
+          dataClass: 'right aligned',
+//        callback: 'formatNumber',
+		  visible: false
+        }
+      ],
+      perPage: 30
+    }
+  },
+  methods: {
+    allcap (value) {
+      return value.toUpperCase()
+    },
+    genderLabel (value) {
+      return value === 'M'
+        ? '<span class="ui teal label"><i class="large man icon"></i>Male</span>'
+        : '<span class="ui pink label"><i class="large woman icon"></i>Female</span>'
+    },
+    formatNumber (value) {
+      return accounting.formatNumber(value, 2)
+    },
+    formatDate (value, fmt = 'D MMM YYYY') {
+      return (value == null)
+        ? ''
+        : moment(value, 'YYYY-MM-DD').format(fmt)
+    },
+    onPaginationData (paginationData) {
+      this.$refs.pagination.setPaginationData(paginationData)
+      this.$refs.paginationInfo.setPaginationData(paginationData)
+    },
+    onChangePage (page) {
+      this.$refs.vuetable.changePage(page)
+    }
+  }
+}
+</script>
+
+<style scoped>
+	.my-tab {
+		box-sizing: border-box;
+	}
+	
+</style>
