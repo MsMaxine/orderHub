@@ -2,15 +2,20 @@
   <div class="my-tab">
   	 <div class="vuetable-pagination ui basic segment grid">
       <vuetable-pagination-info ref="paginationInfo"
-      	info-template="找到 {total} 条，显示 {from} 到 {to} 条 "
-      	 no-data-template="没有找到记录."
+  			info-template="找到 {total} 条记录，显示 {from} 到 {to} "
+  			no-data-template="没有找到记录."
       ></vuetable-pagination-info>
+      <!--:css= "pagCss"-->
       <vuetable-pagination ref="pagination"
+      	:on-each-side = "eachNo"
         @vuetable-pagination:change-page="onChangePage"
       ></vuetable-pagination>
     </div>
+    <!---->
     <vuetable ref="vuetable"
-      api-url="https://vuetable.ratiw.net/api/users"
+    	:css= "tabCss"
+    	no-data-template="" 
+      :api-url="apiUrl"
       :fields="fields"
       pagination-path=""
       :per-page="perPage"
@@ -21,74 +26,79 @@
 </template>
 
 <script>
-//import accounting from 'accounting'
-//import moment from 'moment'
-import Vuetable from 'vuetable-2/src/components/Vuetable'
-import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
-import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
+
+import Vuetable from 'vuetable-2/src/components/Vuetable';
+import VuetablePagination from 'vuetable-2/src/components/VuetablePagination';
+import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo';
+
+import Vue from 'vue';
+import CustomActions from './CustomActions';
+
+
+Vue.component('custom-actions', CustomActions);
 
 export default {
+	name: 'MyTable',
   components: {
     Vuetable,
     VuetablePagination,
     VuetablePaginationInfo
   },
+   props: {
+    apiUrl: {
+      type: String,
+      required: true
+    },
+    fields: {
+      type: Array,
+      required: true
+    },
+    sortOrder: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
+    appendParams: {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
+    detailRowComponent: {
+      type: String
+    }
+  },
   data () {
     return {
-      fields: [
-      	{
-          name: '__checkbox',   // <----
-          title: '多选回传',
-          titleClass: 'center aligned',
-          dataClass: 'center aligned'
-        },
-      	{
-          name: '__handle',   // <----sortHandleIcon
-          dataClass: 'center aligned'
-        },
-      	{
-          name: '__sequence',   // <----序号
-          title: 'No.',
-          titleClass: 'center aligned',//表头样式
-          dataClass: 'center aligned' //序号样式
-        },
-        
-        {
-          name: 'name',
-          title: '姓名'
-         },
-        {
-        	name:'email',
-        	title: '邮箱'
-        },
-        {
-          name: 'birthdate',
-          title: '生日',
-          sortField: 'birthdate',
-          titleClass: 'center aligned',
-          dataClass: 'center aligned',
-//        callback: 'formatDate|DD-MM-YYYY'
-        },
-        {
-          name: 'nickname',
-          callback: 'allcap'
-        },
-        {
-          name: 'gender',
-          titleClass: 'center aligned',
-          dataClass: 'center aligned',
-          callback: 'genderLabel'
-        },
-        {
-          name: 'salary',
-          titleClass: 'center aligned',
-          dataClass: 'right aligned',
-//        callback: 'formatNumber',
-		  visible: false
-        }
-      ],
-      perPage: 30
-    }
+//    fields: FieldDefs,
+      perPage: 20,
+      eachNo: 1, //改变页数导航显示的页面（ 2 *eachNo + 1）
+      tabCss: {
+      	tableClass:  'ui  selectable celled table',
+			  loadingClass: 'loading',//background:url("../asset/loading.gif")
+			  ascendingIcon: 'blue chevron up icon',
+			  descendingIcon: 'blue chevron down icon',
+			  detailRowClass: 'vuetable-detail-row',
+			  handleIcon: 'grey sidebar icon',
+      },
+      pagCss: {
+      	wrapperClass: 'ui left floated pagination menu',
+			  activeClass: 'active large',
+			  disabledClass: 'disabled',
+			  pageClass: 'item',
+			  linkClass: 'icon item',
+			  paginationClass: 'ui bottom attached segment grid',
+			  paginationInfoClass: 'left floated left aligned two wide column',
+			  dropdownClass: 'ui search dropdown',
+			  icons: {
+			    first: 'angle double left icon',
+			    prev: 'left chevron icon',
+			    next: 'right chevron icon',
+			    last: 'angle double right icon',
+			  }
+			}
+		 }
   },
   methods: {
     allcap (value) {
@@ -119,8 +129,8 @@ export default {
 </script>
 
 <style scoped>
-	.my-tab {
-		box-sizing: border-box;
+	.vuetable th {
+		
 	}
 	
 </style>
