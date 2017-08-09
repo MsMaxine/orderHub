@@ -82,15 +82,7 @@
 			
 		},
 		created(){
-			this.$cookie.set('hhh','hi')
-			console.log(this.$cookie.get('hhh'));
-			this.$http.get('http://172.18.4.23:10003/api/v1/h5/website/list/popular', ).then(res => {
-				console.log(res);
-				console.log( res.headers);
-				
-			}, res => {
-				console.log('请求失败');
-			});
+			
 		}
 	}
 	
@@ -104,7 +96,6 @@
     	width: 100%;
 	}
 	.clearfix {
-	  /* 触发 hasLayout */ 
 		zoom: 1; 
 	}
 	.clearfix:before, .clearfix:after{

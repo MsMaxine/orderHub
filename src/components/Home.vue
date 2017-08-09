@@ -22,27 +22,13 @@
 		<div class="bosom_side">
 			<div class="viscera">
 				<search></search>
-				<!--<div class="ui right aligned seven wide column">
-                        <button class="ui basic button" id="settingsBtn" @click="showSettingsModal">
-                          <i class="setting icon"></i>
-                          Settings
-                        </button>
-                 </div>-->
-                 
-				<!--<my-vuetable class="tab"></my-vuetable>
-					http://172.18.4.23:10003/api/v1/h5/website/list/popular
-					https://vuetable.ratiw.net/api/users
-				-->
+
 				<my-table 
 					api-url=""
       				:fields="fields"
 				></my-table>
 				
 				<button class="btn" @click="login">开始采集</button>
-  
-				<!--<settings-modal ref="settingsModal"
-                    :vuetable-fields="vuetableFields"
-                  ></settings-modal>-->
 			</div>
 	
 		</div>
@@ -67,7 +53,7 @@
 		data() {
 			return {
 				fields: FieldDefs,
-				//perPage: 30 //没起作用？上边 my-table标签加了:per-page="perPage"
+
 			}
 		},
 //		props: ['title'],
@@ -81,15 +67,7 @@
 			
 		},
 		created(){
-//			this.$cookie.set('hhh','hi')
-//			console.log(this.$cookie.get('hhh'));
-//			this.$http.get('http://172.18.4.23:10003/api/v1/h5/website/list/popular', ).then(res => {
-//				console.log(res);
-//				console.log( res.headers);
-//				
-//			}, res => {
-//				console.log('请求失败');
-//			});
+
 		}
 	}
 </script>
