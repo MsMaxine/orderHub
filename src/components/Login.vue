@@ -1,25 +1,28 @@
 <template>
 	<div class="login">
-		<div  class="login-box">
+		<div  class="login_box">
 			<div class="main">
 				<h4 >登录</h4>
 		
-				<form  class="form-box" action="" method="">
-					<fieldset>
-						<label>
-							<!--<span class="block input-icon input-icon-right">-->
-							<input type="text"  placeholder="账户名" name="user">
-							<i class="icon-user"></i>
-							<!--</span>-->
-						</label>
-						<label>
-							<input type="password" placeholder="密码" name="password">
-						</label>
-						<button class="btn" @click="signIn"><i class="icon-key"></i>登录</button>
-	
-					</fieldset>
-				</form>
+				<div  class="form_box" >
+					
+					<label>
+					<!--<span class="block input-icon input-icon-right">-->
+						<input type="text"  placeholder="账户名" name="user">
+							
+					<!--</span>-->
+					</label>
+					<label>
+						<input type="password" placeholder="密码" name="password">
+					</label>
+					<a herf="javascript:;" class="btn" @click="signIn">登录</a>
+				</div>
+				<ul class="instructor clearfix">
+					<li><a href="javascript:;">意见反馈</a></li>
+					<li><a href="javascript:;" > 注册新帐号 </a></li>
+				</ul>
 			</div>
+			
 		</div>
 	</div>
 </template>
@@ -48,23 +51,22 @@
     	color: #393939;
     	height: 100%;
 	}
-	.login-box {
+	.login_box {
 		width: 375px;
-		height: 252px;
+		/*height: 252px;*/
 		box-sizing: border-box;
 		padding: 6px;
 		position: absolute;
-		top: 50%;
+		top: 20%;
 		left: 50%;
-		transform: translate(-50%, -50%);
-		
+		transform: translate(-50%, 0);
+		background: #f7f7f7;
 	}
 	
 	.main {
 		padding: 16px 36px;
-		background: #f7f7f7;
 	}
-	.login-box h4 {
+	.login_box h4 {
 		font-size:19px;
 		color: #478fca;
 		font-weight: 400;
@@ -75,17 +77,17 @@
 	    border-bottom: 1px solid #d5e3ef;
 	   
 	}
-	.form-box fieldset {
+	.form_box  {
 		border: 0 none;
 		padding: 0;
 	}
-	.form-box label {
+	.form_box label {
 		display: block;
 		margin-bottom: 11px;
 		font-size: 14px;
 	    line-height: 20px;
 	}
-	.form-box input {
+	.form_box input {
 		padding: 4px 6px;
 		width: 100%;
 		color: #858585;
@@ -93,19 +95,37 @@
 		line-height: 32px;
     	height: 32px;
 	}
+	.form_box input:focus {
+		border-color:#38a0f4;
+	}
 	
-	.form-box .btn {
-		float: right;
-		box-sizing: border-box;
+	.form_box .btn {
+		width:100%;
+	    display: block;
+	    text-align: center;
 	    border: 4px solid #38a0f4;
 	    background-color: #38a0f4;
-	    padding: 5px 30px;
+	    padding: 5px 0;
 	    font-size: 14px;
 	    color: #fff;
-	    margin: 12px 0;
+	   
 	}
-	.form-box .btn:hover {
-		/*background-color: #1690f3;*/
+	.form_box .btn:hover {
     	border-color: #2185D0;
+	}
+	
+	.instructor {
+		margin: 24px 0;
+	}
+	.instructor li{
+		float: right;
+		font-size: 12px;
+		margin-left: 10px;
+	}
+	.instructor li a{
+		color: #225592;
+	}
+	.instructor li a:hover{
+		text-decoration: underline;
 	}
 </style>
