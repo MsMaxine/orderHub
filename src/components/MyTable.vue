@@ -32,10 +32,10 @@ import VuetablePagination from 'vuetable-2/src/components/VuetablePagination';
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo';
 
 import Vue from 'vue';
-import CustomActions from './CustomActions';
+// import CustomActions from './CustomActions';
 
 
-Vue.component('custom-actions', CustomActions);
+// Vue.component('custom-actions', CustomActions);
 
 export default {
 	name: 'MyTable',
