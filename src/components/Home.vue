@@ -3,73 +3,111 @@
 		<div class="top_nav">
 			<div class="nav">
 				<p class="title">云订单</p>
-				<ul class="menuList">
-					<li ><a @click="login">登录</a></li>
-					<li ><a href="#" @click="login" >注册</a></li>
+				<ul class="menuList" v-show="!isLog">
+					<li ><a href="javascript:;" @click="login">登录</a></li>
+					<li ><a href="javascript:;"  @click="login" >注册</a></li>
+				</ul>
+				<ul class="menuList avator" v-show="isLog">
+					<li ><a href="javascript:;" ><img src="../assets/avator.png" alt="" /></a></li>
+					<li ><a href="javascript:;" @click="logout">注销</a></li>
 				</ul>
 			</div>
 			<div class="header">
 				<ul class="menuList">
-					<li ><a href="#" >切换</a></li>
-					<li ><a href="#" >打印</a></li>
-					<li ><a href="#" >下载</a></li>
-					<li ><a href="#" >回传</a></li>
-					<li ><a href="#" >关闭</a></li>
-					<li ><a href="#" >查询</a></li>
+					<li ><a href="javascript:;" @click="changeTab">{{changeTxt}}</a></li>
+					<li ><a href="javascript:;" >打印</a></li>
+					<li ><a href="javascript:;" >下载</a></li>
+					<li ><a href="javascript:;" >回传</a></li>
+					<li ><a href="javascript:;" >关闭</a></li>
+					<li ><a href="javascript:;" @click="check">查询</a></li>
 				</ul>
 			</div>
 		</div>
-		<div class="bosom_side">
-			<div class="viscera">
-				<search></search>
-
-				<my-table 
-					api-url=""
-      				:fields="fields"
-				></my-table>
-				
-				<button class="btn" @click="login">开始采集</button>
+		<!--二级路由-->
+		<!--<router-view> </router-view>-->  
+		
+		<div class="bosom_side" >
+			<!--v-show="isChange"-->
+			<!--订单列表-->
+			<div class="viscera" v-if="isChange">
+				<order-list :loadOnStart="loadOnStart"></order-list>
 			</div>
-	
+			
+			<!--任务列表-->
+			<!--v-show="!isChange"-->
+			<!--api-url="https://vuetable.ratiw.net/api/users" v-show="!isChange" -->
+			<div class="viscera" v-if="!isChange">
+				<task-list></task-list>
+			</div>
 		</div>
 		<my-footer class="footer"></my-footer>
 	</div>
 </template>
 
 <script>
-	import Vue from 'vue'
-	import MyTable from './MyTable';
-	import Search from './Search';
+	import Vue from 'vue';
 	import MyFooter from './MyFooter';
-	import FieldDefs from './FieldDefs.js'; //fieldDefs
+	
+	//import LocalData from './LocalData.js'; //自定义的表格数据，暂时没有用到
+	import OrderList from './OrderList';
+	import TaskList from './TaskList';
 	
 	export default {
 		name: 'Home',
 		components: {
-		    MyTable,
-		    Search,
-		    MyFooter
+		    MyFooter,
+		    OrderList,
+		    TaskList,
 		},
 		data() {
 			return {
-				fields: FieldDefs,
-
+				isChange: true,
+				isLog: false,//初始化登录状态为未登录
+//				myModal:false,
+				loading: true,
+				changeTxt: '进入任务列表',
+				loadOnStart:false,
 			}
 		},
 //		props: ['title'],
 		methods: {
 			login() {
-				this.$router.push("login");
+				this.$router.push("user/login");
 			},
-			showSettingsModal() {
+			logout(){
+				window.sessionStorage.removeItem('STORAGE_TOKEN' );
+				this.$router.push("user/login");
+			},
+			changeTab() {
+				this.isChange = !this.isChange;
+				this.changeTxt = this.isChange ? '进入任务列表 ':'进入数据列表 ';
 				
-			}
-			
+				
+			},
+			//模态框事件
+			showModal() {
+		        this.myModal = !this.myModal;
+		    },
+		    closeModal() {//定义close的事件函数
+		        this.myModal = false;
+		    },
+		    //查询按钮点击
+		    check() {
+		    	
+		    	this.loadOnStart = true;
+		    	console.log('查询',this.loadOnStart);
+		    	
+		    }
+					
 		},
-		created(){
-
-		}
+		created() {
+			if( window.sessionStorage.getItem('STORAGE_TOKEN') ) {
+				this.isLog = true;
+			}
+		},
+	
 	}
+	
 </script>
 
 <style scoped> 
@@ -81,6 +119,7 @@
 	}
 	.bosom_side {
 		height: 100%;
+		padding: 12px 0;
 	}
 	.top_nav{
 		width: 100%;
@@ -98,6 +137,7 @@
 		margin-top: 10px;
         margin-right: 20px;
 	}
+
 	.nav .menuList li {
 		margin-left: 10px;
 	}
@@ -151,32 +191,46 @@
     	border-color: #cdd6e1;
 	}
 	
-
+	/*头像部分*/
+		
+	.nav .avator{
+		margin-top: 2px;
+	}
+	.nav .avator li:nth-child(2){
+		margin-top: 10px;
+	}
+	.nav .avator img{
+		width: 32px;
+    	height: 32px;
+    	vertical-align: middle;
+    	border-radius: 16px;
+	}
+	
+	.nav .avator li:nth-child(1) {
+		background: none;
+		border:0 none;
+		margin-top: 3px;
+	}
+	
+	/*头像部分结束*/
+	
 	.bosom_side .viscera {
 		margin: 10px 18px;
-	    padding-bottom: 10px;
+	     padding: 0 20px;
 	    background: #fff;
 	    border-top: 3px solid #e7eaec;
 	    height: 100%;
 	    overflow-y: auto;
 	    position: relative;
 	}
-	
-	.btn{
-		padding: 10px 20px;
-		position: absolute;
-		top: 60%;
-		left: 50%;
-		transform: translate(0, -50%);
-		background-color: #38a0f4;
-		border: 1px solid #38a0f4;
-		font-size: 16px;
-		color: #fafafa;
-	}
-	
+
 	.footer {
 		position: absolute;
 		bottom: 0;
 		left:0;
 	}
+	
+	
+	
+	
 </style>

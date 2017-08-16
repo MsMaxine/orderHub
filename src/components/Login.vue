@@ -33,14 +33,21 @@
         name: 'Login',
         data() {
 			return {
-				
 			}
         },
         methods: {
         	signIn() {
+        		let token = '456';//发送请求从cookie中获取token，然后保存到sessionStrorage中
+        		console.log(token);
+        		window.sessionStorage.setItem('STORAGE_TOKEN', token );
         		this.$router.push('/');
-        	}
-        }
+        	},
+//      	closeModal(){
+//      		console.log('login')
+//          	this.$emit('close');//在子组件中触发父组件中的close事件
+//         }
+       },
+       
 
 	}
 </script>

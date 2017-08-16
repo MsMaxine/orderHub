@@ -1,25 +1,32 @@
 <template>
   <div class="my-tab">
-  	 <div class="vuetable-pagination ui basic segment grid">
+  	 <div class="vuetable-pagination ui basic segment grid" >
       <vuetable-pagination-info ref="paginationInfo"
   			info-template="找到 {total} 条记录，显示 {from} 到 {to} "
   			no-data-template="没有找到记录."
       ></vuetable-pagination-info>
       <!--:css= "pagCss"-->
       <vuetable-pagination ref="pagination"
-      	:on-each-side = "eachNo"
+      	:on-each-side = "onEachSide"
         @vuetable-pagination:change-page="onChangePage"
+       
       ></vuetable-pagination>
     </div>
-    <!---->
+    <!--:css= "css.tabCss"   
+    	:load-on-start="loadOnStart"
+    -->
     <vuetable ref="vuetable"
     	:css= "tabCss"
     	no-data-template="" 
       :api-url="apiUrl"
+      :api-mode="apiMode"
       :fields="fields"
       pagination-path=""
       :per-page="perPage"
+      :data="data"
+      :load-on-start="loadOnStart"
       @vuetable:pagination-data="onPaginationData"
+      @vuetable:row-clicked="onRowClicked"
     ></vuetable>
    
   </div>
@@ -33,8 +40,6 @@ import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePagination
 
 import Vue from 'vue';
 // import CustomActions from './CustomActions';
-
-
 // Vue.component('custom-actions', CustomActions);
 
 export default {
@@ -47,7 +52,23 @@ export default {
    props: {
     apiUrl: {
       type: String,
-      required: true
+//    required: true
+    },
+    apiMode:{
+    	type: Boolean,
+    	default: true
+    },
+    data:{
+    	type: Object,
+    	default() {
+        return {}
+      }
+    },
+    dataTotal:{
+    	type: Number,
+    	defalut(){
+    		return 0
+    	}
     },
     fields: {
       type: Array,
@@ -67,15 +88,21 @@ export default {
     },
     detailRowComponent: {
       type: String
+    },
+    loadOnStart:{
+    	type: Boolean,
+    	default: true
     }
   },
   data () {
     return {
 //    fields: FieldDefs,
-      perPage: 20,
-      eachNo: 1, //改变页数导航显示的页面（ 2 *eachNo + 1）
+			msg: '',
+      perPage: 40,
+      onEachSide: 1, 
       tabCss: {
-      	tableClass:  'ui  selectable celled table',
+      	tableClass:  'ui selectable celled table',
+      	tableWrapper: "center",  //啥作用？
 			  loadingClass: 'loading',//background:url("../asset/loading.gif")
 			  ascendingIcon: 'blue chevron up icon',
 			  descendingIcon: 'blue chevron down icon',
@@ -123,7 +150,15 @@ export default {
     },
     onChangePage (page) {
       this.$refs.vuetable.changePage(page)
-    }
+    },
+  	onRowClicked(data,field, event){
+		  console.log('clicked: ', data);
+		  console.log('clicked: ', field);
+		},
+			
+  },
+  crreated() {
+  
   }
 }
 </script>
