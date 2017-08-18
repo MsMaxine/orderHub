@@ -4,8 +4,6 @@
 		<!--搜索框-->
 		<search></search>
 		<div class="vuetable-wrapper">    
-			<!--:api-mode="false"  :data="localData"
-	      	:data-path="data"   访问本地json文件的方法../static/LocalData.json-->
 	      	<div class="loader" v-if="loading">
 	      		LOADING
 	      		<img src="../assets/loading.gif" alt="" />
@@ -24,6 +22,7 @@
 		    </div>
 		    <!--:load-on-start="false" -->
 		    <vuetable ref="vuetable"
+		    	
 		      :css="css.tabCss"
 		      wrapper-class="vuetable-wrapper"
 		      no-data-template="" 
@@ -35,6 +34,7 @@
 		      @vuetable:row-clicked="onRowClicked"
 		      @vuetable:loading="onLoading"
 		      @vuetable:loaded="onLoaded"
+		      
 		    ></vuetable>
 		</div>	
 	</div>
@@ -66,52 +66,29 @@
       			css: {
       				tabCss: {
 				      	tableClass:  'ui selectable celled table',
-				      	tableWrapper: "center",  //啥作用？
-							  loadingClass: 'loading',//background:url("../asset/loading.gif")
-							  ascendingIcon: 'blue chevron up icon',
-							  descendingIcon: 'blue chevron down icon',
-							  detailRowClass: 'vuetable-detail-row',
-							  handleIcon: 'grey sidebar icon',
 				    },
-				    pagCss: {
-				      	wrapperClass: 'ui left floated pagination menu',
-						activeClass: 'active large',
-						disabledClass: 'disabled',
-						pageClass: 'item',
-						linkClass: 'icon item',
-						paginationClass: 'ui bottom attached segment grid',
-						paginationInfoClass: 'left floated left aligned two wide column',
-						dropdownClass: 'ui search dropdown',
-						icons: {
-							first: 'angle double left icon',
-							prev: 'left chevron icon',
-							next: 'right chevron icon',
-							last: 'angle double right icon',
-						}
-					}
       			}
         	}
         },
 		methods: {
 			onLoading(){
 				this.loading = true;
-				console.log('webList-loading....');//应用开启后，这个就会
+//				console.log('webList-loading....');//应用开启后，这个就会加载
 			},
 			onLoaded() {
 				this.loading = false;
-				console.log('webList-loaded!');
+//				console.log('webList-loaded!');
 			},
 			onPaginationData (paginationData) {
-		      this.$refs.pagination.setPaginationData(paginationData)
-		      this.$refs.paginationInfo.setPaginationData(paginationData)
+			    this.$refs.pagination.setPaginationData(paginationData);
+			    this.$refs.paginationInfo.setPaginationData(paginationData);
 		    },
 		    onChangePage (page) {
-		      this.$refs.vuetable.changePage(page)
+		    	this.$refs.vuetable.changePage(page);
 		    },
 			onRowClicked(data,field, event){
-			  console.log('点击了weblist');
-			  console.log('222 ', data);
-			  
+				console.log('点击了weblist');
+				this.$emit('isSwitch');
 			},
 			
 		},
@@ -131,17 +108,15 @@
 	}
 	/*loader样式*/
 	.loader {
-	    /*background: url('../assets/loading.gif') no-repeat bottom center;*/
 	    width: 200px;
 	    height: 50px;
 	    font-size: 1em;
 	    text-align: center;
-	    margin-left: -100px;
-	    /*letter-spacing: 4px;*/  
 	    color: #ddd;
 	    position: absolute;
-	    top: 160px;
+	    top: 50px;
 	    left: 50%;
+	    margin-left: -100px;
 	    border: 1px solid #ddd;
 	    padding: 4px 20px;
     	background: #fff;

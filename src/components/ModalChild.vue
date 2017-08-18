@@ -18,7 +18,7 @@
                             </div>
                             <div class="modal-footer">
                                 <slot name="footer"></slot>
-                                <!-- <button class="modal-default-button" @click="closeModal">close</button> --绑定事件closeModal,且定义$emit触发父组件上的事件-->
+                                <!-- <button class="modal-default-button" @click="closeModal">close</button> 绑定事件closeModal,且定义$emit触发父组件上的事件-->
                             </div>
                         </div>
                     <!--</transition>-->
@@ -44,10 +44,13 @@
            }
         },
         methods:{
-           closeModal(){//
-              this.$emit('close');//在子组件中触发父组件中的close事件
-           }
-        }
+//         closeModal(){//
+//            this.$emit('close');//在子组件中触发父组件中的close事件
+//         }
+       },
+       created() {
+       	
+       }
      }
 </script>
 
@@ -67,8 +70,8 @@
         vertical-align: middle;     
     }
     .modal-container {
-        width: 80%;
-        height: 800px;
+        width: 70%;
+        height: 700px;
         margin: 0px auto;
         padding: 20px 30px;
         background-color: #fff;

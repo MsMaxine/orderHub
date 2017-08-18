@@ -4,7 +4,7 @@
 			<ul class="clearfix">
 				<li>
 					<label for="">网站名称</label>
-					<select  id="">
+					<select id="">
 						<option v-for="item in webOptions" value="">{{item.name}}</option>
 					</select>
 				</li>

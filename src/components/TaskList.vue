@@ -34,7 +34,6 @@
 		      pagination-path=""
 		      :per-page="perPage"
 		      @vuetable:pagination-data="onPaginationData"
-		      @vuetable:row-clicked="onRowClicked"
 		      @vuetable:loading="onLoading"
 		      @vuetable:load-success="onLoadSuccess"
 		  
@@ -91,12 +90,6 @@
 		    onChangePage (page) {
 		      this.$refs.vuetable.changePage(page)
 		    },
-			onRowClicked(data,field, event){
-			  console.log('333', data);
-			  console.log('333 ', field);
-			},
-			
-			
 		},
 	
 
@@ -111,16 +104,14 @@
 	}
 	/*loader样式*/
 	.loader {
-	    /*background: url('../assets/loading.gif') no-repeat bottom center;*/
 	    width: 200px;
 	    height: 50px;
 	    font-size: 1em;
 	    text-align: center;
 	    margin-left: -100px;
-	    /*letter-spacing: 4px;*/  
 	    color: #ddd;
 	    position: absolute;
-	    top: 160px;
+	    top: 50px;
 	    left: 50%;
 	    border: 1px solid #ddd;
 	    padding: 4px 20px;

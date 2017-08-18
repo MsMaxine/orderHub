@@ -5,7 +5,7 @@
 				<p class="title">云订单</p>
 				<ul class="menuList" v-show="!isLog">
 					<li ><a href="javascript:;" @click="login">登录</a></li>
-					<li ><a href="javascript:;"  @click="login" >注册</a></li>
+					<li ><a href="javascript:;"  @click="login">注册</a></li>
 				</ul>
 				<ul class="menuList avator" v-show="isLog">
 					<li ><a href="javascript:;" ><img src="../assets/avator.png" alt="" /></a></li>
@@ -27,18 +27,17 @@
 		<!--<router-view> </router-view>-->  
 		
 		<div class="bosom_side" >
-			<!--v-show="isChange"-->
 			<!--订单列表-->
 			<div class="viscera" v-if="isChange">
-				<order-list :loadOnStart="loadOnStart"></order-list>
+				<order-list :loadOnStart="loadOnStart" @QH="changeTab"></order-list>
 			</div>
 			
 			<!--任务列表-->
-			<!--v-show="!isChange"-->
 			<!--api-url="https://vuetable.ratiw.net/api/users" v-show="!isChange" -->
 			<div class="viscera" v-if="!isChange">
 				<task-list></task-list>
 			</div>
+			
 		</div>
 		<my-footer class="footer"></my-footer>
 	</div>
@@ -47,8 +46,6 @@
 <script>
 	import Vue from 'vue';
 	import MyFooter from './MyFooter';
-	
-	//import LocalData from './LocalData.js'; //自定义的表格数据，暂时没有用到
 	import OrderList from './OrderList';
 	import TaskList from './TaskList';
 	
@@ -63,7 +60,6 @@
 			return {
 				isChange: true,
 				isLog: false,//初始化登录状态为未登录
-//				myModal:false,
 				loading: true,
 				changeTxt: '进入任务列表',
 				loadOnStart:false,
@@ -91,19 +87,18 @@
 		    closeModal() {//定义close的事件函数
 		        this.myModal = false;
 		    },
-		    //查询按钮点击
+		    //查询按钮点击,没起作用
 		    check() {
-		    	
 		    	this.loadOnStart = true;
-		    	console.log('查询',this.loadOnStart);
-		    	
+
 		    }
-					
 		},
 		created() {
 			if( window.sessionStorage.getItem('STORAGE_TOKEN') ) {
 				this.isLog = true;
+				this.$on('QH');//触发切换按钮事件
 			}
+			
 		},
 	
 	}
@@ -229,8 +224,4 @@
 		bottom: 0;
 		left:0;
 	}
-	
-	
-	
-	
 </style>

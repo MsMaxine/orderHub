@@ -22,7 +22,7 @@
 			        @vuetable-pagination:change-page="onChangePage"
 			    ></vuetable-pagination>
 		    </div>
-
+				<!-- :load-on-start="loadOnStart"-->
 		    <vuetable ref="vuetable"
 		    	:css="css.tabCss"
 		    	wrapper-class="vuetable-wrapper"
@@ -32,30 +32,31 @@
 		        pagination-path=""
 		        :per-page="perPage"
 		        @vuetable:pagination-data="onPaginationData"
-		        @vuetable:row-clicked="onRowClicked"
+		        @vuetable:row-dblclicked="onRowClicked"
+		        @vuetable:cell-clicked="onCellClicked"
 		        @vuetable:loading="onLoading"
 		        @vuetable:loaded="onLoaded"
-		  	    :load-on-start="loadOnStart"
+		  	    :load-on-start="false"
 		    ></vuetable>
 		</div>	
 		<!--采集按钮-->
-		<button class="btn" @click="showModal" v-if="false">开始采集</button>
+		<button class="btn" @click="showModal" v-if="loadOnStart" v-show="!Next">开始采集</button>
 				
 		<!--  模态框-->
-		<modal-child :msg="myModal" @close="closeModal">
-			<!--<h3 slot="header">网站列表信息</h3>-->
+		<modal-child :msg="myModal" >=-
 			<div slot="body">
 				<!--网站列表 -->
-				<web-list ></web-list>
+				<web-list @isSwitch="isSwitch" v-show="!isNext"></web-list>
 				<!--登录页面-->
-				<login v-if="false"></login>
-				
+				<web-login v-show="isNext" @close="close"></web-login>
 			</div>
+			
 			<div slot="footer">
-				<button class="modal_btn" @click="closeModal">关闭</button><!--将myModal的值传给绑定的属性msg--><!--close监听子组件触发的事件-->
+				<!--v-show="!isNext"-->
+				<button class="modal_btn" @click="closeModal" >关闭</button><!--将myModal的值传给绑定的属性msg--><!--close监听子组件触发的事件-->
 			</div>
 		</modal-child>
-				
+		
 	</div>
 </template>
 
@@ -67,7 +68,7 @@
 	import OrderFieldDefs from './OrderFieldDefs.js'; //fieldDefs
 	import ModalChild from './ModalChild'; //模态框组件
 	import WebList from './WebList';
-	import Login from './Login';
+	import WebLogin from './WebLogin';
 	import axios from 'axios';
 	
 	export default {
@@ -79,79 +80,108 @@
 		    Search,
 			ModalChild,
 			WebList,
-			Login
-			
+			WebLogin
 		},
 //		props:['loadOnStart'],
         data() {
         	return {
         		apiUrl: 'https://vuetable.ratiw.net/api/users',
         		fields: OrderFieldDefs,
+        		isLog: false,
+				loadOnStart: false,
         		loading: false,
         		perPage: 40,
       			onEachSide: 1, //又不起作用了
 				myModal:false,
-				isLog: false,
-				loadOnStart: false,
       			css: {
       				tabCss: {
 				      	tableClass:  'ui selectable celled table',
 				    },
-
-      			}
+      			},
+      			isNext: false,
         	}
-        
         },
 		methods: {
 		    onLoading(){
 				this.loading = true;
-				console.log('loading....');
 			},
 			onLoaded() {
 				this.loading = false;
-//				console.log('loaded!');
 			},
 			onPaginationData (paginationData) {
 		      this.$refs.pagination.setPaginationData(paginationData)
 		      this.$refs.paginationInfo.setPaginationData(paginationData)
 		    },
 		    onChangePage (page) {
-		      console.log(page);
 		      this.$refs.vuetable.changePage(page);//changePage在apiMode=true才起作用
 		      
 		    },
-			onRowClicked(data,field, event){
-			  console.log('111', data);
-			  console.log('111 ', field);
+			onRowClicked(data,field, event){ //点击每行触发的事件
+//				console.log('111', data);
+//				console.log('111 ', field);
+				console.log('111 ', data.id);
+				
+				this.$root.Bus.$emit('getId', data.id);//与订单详情通信（兄弟组件），把id传递给订单详情组件
+				
+			    this.$router.push('order/' + data.id);
+				
+			},
+			onCellClicked(data,field,event){  //点击某列触发
+				console.log('cellClick ', field);
+				console.log('cellClick ', field.title);
+				if( field.title == "订单编号") {
+					console.log('No.',this);
+				}else{
+					return false;
+				}
 			},
 			showModal() {
 		        this.myModal = !this.myModal;
 		    },
 		    closeModal() {//定义close的事件函数
-//		    	this.$on('close');
 		        this.myModal = false;
 		    },
+		    isSwitch() {
+		    	this.isNext = !this.isNext;
+		    },
+		    close() {  //模态框里点击开始采集按钮，关闭模态框同时切换到任务列表
+		    	this.myModal = false;
+		        this.$emit('QH'); //触发父组件中的切换按钮事件
+		    }
+		  
 		},
+//		watch: {
+//			isNext:{
+//				handler(v){
+//					console.log('watch--isNext',v);//isNext == true
+//				}
+//			}
+//		},
 		created () {
-			
-			
+
 			if( window.sessionStorage.getItem('STORAGE_TOKEN') ){
 				this.loadOnStart = true;
+				this.$on('isSwitch');
+				this.$on('close');
 			}
+			
+			
 			let that = this;
 			let apiUrl = that.apiUrl;
-			console.log('api',apiUrl)
+
 			axios.get(apiUrl).then(function(res) {
-				that.loading = false;
+//				that.loading = false;
 				that.localData = res.data;
 				that.dataCount = res.data.total;
-			    console.log(res.data);
-			    console.log(that.dataCount);
+//			    console.log(res.data);
+//			    console.log(that.dataCount);
 			  
 			}).catch(function(error){
 				console.log(error);
 			});
+			
 		},
+
 
 	}
 </script>
@@ -191,7 +221,7 @@
 	    /*letter-spacing: 4px;*/  
 	    color: #ddd;
 	    position: absolute;
-	    top: 160px;
+	    top: 50px;
 	    left: 50%;
 	    border: 1px solid #ddd;
 	    padding: 4px 20px;

@@ -49,3 +49,7 @@ img {
     vertical-align: middle;
     color: #000;
 }
+
+input.el-input__inner, .el-button, .el-button--large, .el-button--small, .el-button--mini {
+	border-radius: 0px;
+}
