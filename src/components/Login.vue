@@ -14,7 +14,7 @@
                 </div>
                 <ul class="instructor clearfix">
 					<li><a href="javascript:;">意见反馈</a></li>
-					<li><a href="javascript:;" > 注册新帐号 </a></li>
+					<li><a href="javascript:;" @click="register">注册新帐号 </a></li>
 				</ul>
             </el-form>
         </div>
@@ -51,6 +51,9 @@
                         return false;
                     }
                 });
+            },
+            register() {
+            	this.$router.push("register");
             }
         }
     }

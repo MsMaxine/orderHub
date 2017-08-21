@@ -5,7 +5,7 @@
 				<p class="title">云订单</p>
 				<ul class="menuList" v-show="!isLog">
 					<li ><a href="javascript:;" @click="login">登录</a></li>
-					<li ><a href="javascript:;"  @click="login">注册</a></li>
+					<li ><a href="javascript:;"  @click="register">注册</a></li>
 				</ul>
 				<ul class="menuList avator" v-show="isLog">
 					<li ><a href="javascript:;" ><img src="../assets/avator.png" alt="" /></a></li>
@@ -73,6 +73,9 @@
 			logout(){
 				window.sessionStorage.removeItem('STORAGE_TOKEN' );
 				this.$router.push("user/login");
+			},
+			register(){
+				this.$router.push("user/register");
 			},
 			changeTab() {
 				this.isChange = !this.isChange;
