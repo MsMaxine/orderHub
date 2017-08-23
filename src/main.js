@@ -40,4 +40,4 @@ new Vue({
   data:{
   	Bus: new Vue(),  //用于非父子组件通信的空vue实例
   }
-})
+});

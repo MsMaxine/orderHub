@@ -51,6 +51,7 @@
         		this.$router.push('/');
         	},
         	signIn() {
+        		sessionStorage.setItem('STORAGE_TOKEN',111);
         		this.$router.push('/');
         	},
         	logIn() {

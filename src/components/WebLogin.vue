@@ -1,7 +1,8 @@
 <template>
     <div class="login-wrap">
+    	<!--<button @click="goBack">返回</button>-->
         <div class="ms-login">
-        	<div class="ms-title">请先登录</div>
+        	<div class="ms-title">请输入账号密码</div>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
                 <el-form-item prop="username">
                     <el-input v-model="ruleForm.username" placeholder="请输入网站账号" ></el-input>
@@ -37,7 +38,6 @@
         },
         methods: {
             submitForm(formName) {
-            	
                 const self = this;
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -49,7 +49,8 @@
                         return false;
                     }
                 });
-            }
+            },
+           
         }
     }
 </script>
@@ -63,7 +64,6 @@
     .login-wrap .ms-login .plainBr {
     	border-radius: 0px;
     }
-    
    .ms-title {
    		font-size:19px;
 		color: #478fca;

@@ -2,7 +2,15 @@
 	<div>
 		<h3 slot="header">网站列表信息</h3>  <!--写在orderList这个父组件更好些吧，涉及到子组件给父组件传递msg-->
 		<!--搜索框-->
-		<search></search>
+		<div class="searchbox" >
+			<ul class="clearfix">
+				<li>
+					<label for="">网站名称</label>
+					<input type="text" placeholder="请输入网站名称" />
+				</li>
+			</ul>
+		</div>
+		<!--table-->
 		<div class="vuetable-wrapper">    
 	      	<div class="loader" v-if="loading">
 	      		LOADING
@@ -44,14 +52,13 @@
 	import Vuetable from 'vuetable-2/src/components/Vuetable';
 	import VuetablePagination from 'vuetable-2/src/components/VuetablePagination';
 	import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo';
-
-	import Search from './Search';
+//	import Search from './Search';
 	import WebListFieldDefs from './WebListFieldDefs.js'; //fieldDefs
 	
 	export default {
         name: 'WebList' ,
 		components: {
-		    Search,
+//		    Search,
 			Vuetable,
 		    VuetablePagination,
 		    VuetablePaginationInfo
@@ -62,7 +69,7 @@
         		fields: WebListFieldDefs,
         		loading: false,
         		perPage: 40,
-      			onEachSide: 1, //又不起作用了？
+      			onEachSide: 1, 
       			css: {
       				tabCss: {
 				      	tableClass:  'ui selectable celled table',
@@ -100,7 +107,47 @@
 </script>
 
 <style scoped>
+	.searchbox {
+		padding: 10px 18px;
+    	border-bottom: 1px solid #e7eaec;
+    	box-sizing: border-box;
+    	width: 100%;
+	}
+	.clearfix {
+		zoom: 1; 
+	}
+	.clearfix:before, .clearfix:after{
+		content: ""; 
+		display: block; 
+		height: 0; 
+		clear: both; 
+		visibility: hidden; 
+	}
+	
+	.searchbox li {
+		float: left;
+		line-height: 28px;
+		margin-right: 30px;
+	}
+	
+	.searchbox label {
+    	padding-right: 10px;
+    	
+	}
+	.searchbox input{
+		margin-right: 15px;
+		background-color: #F4F6F9;
+		border: 1px solid #e9e9e9;
+		height: 28px;
+		width: 100px;
+		box-sizing: border-box;
+		padding: 0 4px;
+	}
 
+	.searchbox  input:focus{
+		border-color: #54abd9;
+		transition-duration: 0.5s;
+	}
 	/* Loading Animation: */
 	.vuetable-wrapper {
 	    position: relative;
