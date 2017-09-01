@@ -7,15 +7,16 @@
 				<div  class="form_box" >
 					
 					<label>
-						<input type="text"  placeholder="手机号" name="phoneNumber">
+						<input type="text"  placeholder="手机号" name="phoneNumber" v-model="phoneNo">
 					</label>
 					<label>
-						<input type="text"  placeholder="验证码" name="code" class="code">
-						<img src="../assets/code.png"/>
+						<input type="text"  placeholder="验证码" name="code" class="code" v-model="code">
+						<img :src="captcha" class="captcha" @click="refresh"/>
 					</label>
-					<a herf="javascript:;" class="btn1" @click="">发送手机验证码</a>
+						<!--倒计时获取手机验证码-->
+						<count-down class="btn1" :start='start' @countDown ='start=false' @click.native='sendCode' ></count-down>
 					<label>
-						<input type="text"  placeholder="手机验证码" name="phoneCode">
+						<input type="text"  placeholder="手机验证码" name="phoneCode" v-model="phoneCode">
 					</label>
 					<label>
 						<input type="text"  placeholder="昵称" name="user">
@@ -24,7 +25,7 @@
 						<input type="password" placeholder="密码" name="password">
 					</label>
 					<label>
-						<input type="checkbox" class="checkbox" name="checkbox">我已阅读并同意<a class="termsOfService" href="#">《服务条款》</a>
+						<input type="checkbox" class="checkbox" name="checkbox" >我已阅读并同意<a class="termsOfService" href="#">《服务条款》</a>
 					</label>
 					<a herf="javascript:;" class="btn2" @click="signIn">注册</a>
 				</div>
@@ -38,11 +39,22 @@
 </template>
 
 <script>
-
+	import qs from 'qs';
+	import CountDown from './CountDown.vue';
+	
 	export default {
         name: 'Register',
+        components:{
+        	CountDown,
+        },
         data() {
 			return {
+				start: false,
+				code:'',
+				phoneNo: '',
+				phoneCode: '',
+//				captcha: this.$myConfig.host + '/open/api/captcha',
+				captcha:'/api/open/api/captcha',
 				
 			}
         },
@@ -50,13 +62,82 @@
         	sendOut() {
         		this.$router.push('/');
         	},
-        	signIn() {
+        	signIn() {  //注册按钮
+        		
+        		//发送请求成功后，跳转页面
         		sessionStorage.setItem('STORAGE_TOKEN',111);
         		this.$router.push('/');
         	},
         	logIn() {
         		this.$router.push('login');
+        	},
+        	refresh() {
+        		this.captcha ='/api/open/api/captcha'+ '?rnd=' + Math.random();
+				console.log(this.captcha);
+        	},
+        	sendCode(val){
+        		//前面发送ajax请求成功之后调用this.start = true开始短信倒计时
+        		this.start = true;
+        		this.disabled = true;
+        		console.log(this.phoneNo,this.code);
+				console.log(this.phoneCode);
+				let data1 = qs.stringify({
+				        phone_no: this.phoneNo,
+  						captcha: this.code
+				});
+				this.$axios.post(
+//				    '/api/open/api/phone_captcha?rnd=' + Math.random(),
+				    '/api/open/api/phone_captcha',
+				    data1,
+				    {
+				    	headers: {
+				        	'Content-Type': 'application/x-www-form-urlencoded',
+				    	},
+				    	withCredentials : true
+				    }
+				   
+				).then(function(res){
+				    console.log(res);
+				    
+				    
+				}).catch(function(err){
+        			console.log(err);
+        		});
+        	},
+        	sendSMS() {
+        		
+				
+        		this.$axios.post(
+				    'http://inside.winchannel.net:18020/open/api/phone_captcha',
+				    qs.stringify({
+				        phone_no: this.phoneNo,
+  						captcha: this.code
+				    }),
+				    {
+				    	headers: {
+				        	'Content-Type': 'application/x-www-form-urlencoded',
+				    	},
+				    	withCredentials : true
+				    }
+				   
+				).then(function(res){
+				    console.log(res);
+				    
+				    
+				}).catch(function(err){
+        			console.log(err);
+        		});
+//      		axios.post(, qs.stringify({
+//      			
+//      		})).then(function(res){
+//      			console.log(res);
+//      		}).catch(function(err){
+//      			console.log(err)
+//      		});
         	}
+        },
+        created() {
+			
         }
 
 	}
@@ -82,6 +163,11 @@
 	
 	.main {
 		padding: 16px 36px;
+	}
+	
+	.captcha {
+		width: 96px;
+		height: 34px;
 	}
 	.register_box h4 {
 		font-size:19px;

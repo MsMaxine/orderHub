@@ -50,6 +50,6 @@ img {
     color: #000;
 }
 
-input.el-input__inner, .el-button, .el-button--large, .el-button--small, .el-button--mini {
+input.el-input__inner, .el-button, .el-button--large, .el-button--small, .el-button--mini, .el-checkbox__inner {
 	border-radius: 0px;
 }

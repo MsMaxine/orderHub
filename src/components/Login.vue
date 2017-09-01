@@ -12,11 +12,12 @@
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
                 </div>
-                <ul class="instructor clearfix">
-					<li><a href="javascript:;">意见反馈</a></li>
-					<li><a href="javascript:;" @click="register">注册新帐号 </a></li>
-				</ul>
+                
             </el-form>
+            <ul class="instructor clearfix">
+				<li><a href="javascript:;">意见反馈</a></li>
+				<li><a href="javascript:;" @click="register">注册新帐号 </a></li>
+			</ul>
         </div>
     </div>
 </template>
@@ -105,7 +106,7 @@
 		margin-left: 10px;
 	}
 	.instructor li a{
-		color: #225592;
+		color: #4183C4;
 	}
 	.instructor li a:hover{
 		text-decoration: underline;

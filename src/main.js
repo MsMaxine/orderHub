@@ -6,8 +6,12 @@ import VueCookie from 'vue-cookie';
 
 import App from './App';
 import router from './router';
-//import axios from 'axios';//全局引入没有起作用？
-//Vue.prototype.$axios = axios;  全局绑定
+
+import axios from 'axios';//全局引入,
+Vue.prototype.$axios=axios;  //全局绑定
+axios.defaults.withCredentials=true;
+
+
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
@@ -19,12 +23,19 @@ import '../static/css/animate.css';//引入animate.css库
 import '../static/css/global.css';
 
 
+//引入自己的插件
+//import MyPluginConfig from './myPlugin.js';
+
 //安装插件
 //Vue.use(VueResource);
 Vue.use(VueCookie);
 Vue.use(ElementUI);
-
 //Vue.use(VModal);
+
+//安装自己的插件挂载config属性
+//Vue.use(MyPluginConfig);
+
+
 
 
 Vue.config.productionTip = false;

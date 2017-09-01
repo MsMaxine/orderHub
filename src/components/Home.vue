@@ -79,10 +79,10 @@
 			},
 			changeTab() {
 				if( window.sessionStorage.getItem('STORAGE_TOKEN') ) {
-				this.isChange = !this.isChange;
-				this.changeTxt = this.isChange ? '进入任务列表 ':'进入数据列表 ';
+					this.isChange = !this.isChange;
+					this.changeTxt = this.isChange ? '进入任务列表 ':'进入数据列表 ';
 				}else{
-					alert('您还未登录，请先登录！')
+					alert('您还未登录，请先登录！');
 					return;
 				}
 				

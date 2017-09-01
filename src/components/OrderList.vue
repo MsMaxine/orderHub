@@ -69,7 +69,7 @@
 	import ModalChild from './ModalChild'; //模态框组件
 	import WebList from './WebList';
 	import WebLogin from './WebLogin';
-	import axios from 'axios';
+
 	
 	export default {
         name: 'OrderList' ,
@@ -169,7 +169,7 @@
 			let that = this;
 			let apiUrl = that.apiUrl;
 
-			axios.get(apiUrl).then(function(res) {
+			this.$axios.get(apiUrl).then(function(res) {
 //				that.loading = false;
 				that.localData = res.data;
 				that.dataCount = res.data.total;
