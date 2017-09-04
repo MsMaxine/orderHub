@@ -17,7 +17,8 @@ import 'element-ui/lib/theme-default/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
 
 //import VModal from 'vue-js-modal';
-
+import 'bootstrap/dist/css/bootstrap.min.css';//引入bootstrap
+//import 'bootstrap/dist/js/bootstrap.min.js';
 import '../static/css/animate.css';//引入animate.css库
 //引入自己的css
 import '../static/css/global.css';

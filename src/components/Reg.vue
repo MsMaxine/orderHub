@@ -1,10 +1,17 @@
 <template>
+	<div>  
+           <!--
+           	作者：maxinezhang2017@outlook.com
+           	时间：2017-09-04
+           	描述：开始
+           -->
+    <my-header></my-header>
     <div class="login-wrap">
         <div class="ms-login">
-        	<div class="ms-title">注册</div>
+        	<div class="ms-title">欢迎注册Order Hub</div>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" >
                 <el-form-item prop="phoneNo">
-                    <el-input v-model="ruleForm.phoneNo" placeholder="手机号" ></el-input>
+                    <span>+86</span><el-input v-model="ruleForm.phoneNo" placeholder="手机号" class="dis_inline" ></el-input>
                 </el-form-item>
                 <el-form-item prop="code">
                     <el-input v-model="ruleForm.code" placeholder="验证码" class="code" ></el-input>
@@ -18,7 +25,7 @@
                 <!--<count-down class="btn1" :start="start" @countDown ="start=false" @click.native="sendSMS('ruleForm')" ></count-down>-->
                 
                 <el-form-item prop="nick">
-                    <el-input v-model="ruleForm.nick" placeholder="昵称" ></el-input>
+                    <el-input v-model="ruleForm.nick" placeholder="设置会员名" ></el-input>
                 </el-form-item>
                 <el-form-item prop="password">
                     <el-input type="password" placeholder="密码" v-model="ruleForm.password" ></el-input>
@@ -40,17 +47,24 @@
 			</ul>
         </div>
     </div>
+    <my-footer></my-footer>
+    </div> 
+    <!--结束-->
 </template>
 
 <script>
 	
 	import qs from 'qs';
 	import CountDown from './CountDown.vue';
+	import MyHeader from './Header.vue';
+	import MyFooter from './Footer.vue';
 	
     export default {
     	name: 'Reg',
     	 components:{
         	CountDown,
+    	 	MyHeader,
+    	 	MyFooter,
         },
         data () {
 		    var validatePass = (rule, value, callback) => {
@@ -96,7 +110,7 @@
                 		{ required: true, message: '短信验证码', trigger: 'blur' }
                 	],
                 	nick: [
-                		{ required: true, message: '昵称不能为空', trigger: 'blur' },
+                		{ required: true, message: '会员名不能为空', trigger: 'blur' },
                 		{ min: 2,  message: '不少于2个字符', trigger: 'blur,change' }
                 	],
                     password: [
@@ -107,8 +121,7 @@
 						{ validator: validatePass, trigger: 'blur' }
                     ],
                     checked: [
-//                  	{ required: true, type: 'boolean', message: '请先同意条款' , trigger: 'change'},//有问题
-//						{ required: true, validator: validateCheck, trigger: 'change' }
+//                  	{ required: true, type: 'boolean', message: '请先同意条款' , trigger: 'change'},
                     ]
                 },
             }
@@ -126,7 +139,7 @@
             	console.log(this.ruleForm.checked);
                 const self = this;
                 self.$refs[formName].validate((valid) => {
-                    if (valid ) {
+                    if ( valid ) {
                     	let data2 = qs.stringify({
                     		nick: this.ruleForm.nick,
 						    phone_no: this.ruleForm.phoneNo,
@@ -266,10 +279,28 @@
 </script>
 
 <style scoped>
+	span{
+	    width: 36px;
+	    box-sizing: border-box;
+	    border: 1px solid #ccc;
+	    border-right: 0 none;
+	    height: 36px;
+	    display: inline-block;
+	    text-align: center;
+	    vertical-align: middle;
+	}
+	.dis_inline{
+		display: inline-block;
+		width: 280px;
+	}
     .login-wrap{
         position: relative;
-        width:100%;
-        height:100%;
+        /*width:100%;
+        height:100%;*/
+       width: 1000px;
+       height: 556px;
+       margin: 80px auto;
+       background: #fff;
     }
     .login-wrap .ms-login .plainBr {
     	border-radius: 0px;
@@ -277,22 +308,24 @@
     
    .ms-title {
    		font-size:19px;
-		color: #478fca;
+   		font-weight: 700;
+		/*color: #478fca;*/
 		font-weight: 400;
 		line-height: 28px;
 	    margin-bottom: 16px;
 	    margin-top: 18px;
 	    padding-bottom: 4px;
-	    border-bottom: 1px solid #d5e3ef;
+	    /*border-bottom: 1px solid #d5e3ef;*/
+	   text-align: center;
    }
     .ms-login{
         position: absolute;
         left:50%;
-        top:20%;
+        /*top:20%;*/
         transform:translate(-50%, 0);
-        width:380px;
-        padding:10px 30px;
-        background: #f7f7f7;
+        width:320px;
+        /*padding:10px 30px;*/
+        /*background: #f7f7f7;*/
     }
     .login-btn{
         text-align: center;
@@ -315,7 +348,8 @@
 	}
 	.phone_captcha{
 		width: 56%;
-		height: 37px;
+		height: 36px;
+		margin-top:1px;
     	float: right;
 	}
 	
